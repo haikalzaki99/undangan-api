@@ -23,17 +23,7 @@
             "App\\": "app/"
         }
     },
-    "scripts": {
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php saya key"
-        ],
-        "vercel": [
-        "@php vercel-env.php"
-        ]
-    },
+    "scripts": {},
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
