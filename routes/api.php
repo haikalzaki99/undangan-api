@@ -3,8 +3,10 @@
 use App\Controllers\Api\AuthController;
 use App\Controllers\Api\CommentController;
 use App\Controllers\Api\DashboardController;
+use App\Controllers\Api\OwnerController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\DashboardMiddleware;
+use App\Middleware\OwnerMiddleware;
 use App\Middleware\RateLimitMiddleware;
 use Core\Routing\Route;
 
@@ -16,6 +18,24 @@ use Core\Routing\Route;
 Route::middleware(RateLimitMiddleware::class)->prefix('/session')->group(function () {
     Route::post('/', [AuthController::class, 'login']);
     Route::options('/'); // Preflight request [/api/session]
+});
+
+// Owner (Jack Tech): kelola klien. Wajib header x-access-key = OWNER_KEY.
+Route::middleware([RateLimitMiddleware::class, OwnerMiddleware::class])->prefix('/owner')->group(function () {
+    Route::post('/register', [OwnerController::class, 'register']);
+    Route::options('/register');
+
+    Route::get('/clients', [OwnerController::class, 'clients']);
+    Route::options('/clients');
+
+    Route::prefix('/client/{id}')->group(function () {
+        Route::controller(OwnerController::class)->group(function () {
+            Route::patch('/', 'update');
+            Route::delete('/', 'delete');
+        });
+
+        Route::options('/'); // Preflight request [/api/owner/client/{id}]
+    });
 });
 
 Route::middleware([RateLimitMiddleware::class, AuthMiddleware::class])->group(function () {
