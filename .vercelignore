@@ -1,0 +1,6 @@
+.env
+vendor/
+cache/
+*.log
+docker/
+docker-compose.yml

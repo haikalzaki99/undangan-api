@@ -29,6 +29,9 @@
         ],
         "post-create-project-cmd": [
             "@php saya key"
+        ],
+        "vercel": [
+        "@php vercel-env.php"
         ]
     },
     "config": {
@@ -38,4 +41,6 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
+
+    
 }
