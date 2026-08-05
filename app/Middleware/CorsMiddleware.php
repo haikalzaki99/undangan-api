@@ -12,9 +12,14 @@ final class CorsMiddleware implements MiddlewareInterface
     public function handle(Request $request, Closure $next)
     {
         $header = respond()->getHeader();
-        $header->set('Access-Control-Allow-Origin', '*');
         $header->set('Access-Control-Max-Age', '3600');
         $header->set('Access-Control-Expose-Headers', 'Content-Length, Content-Disposition');
+
+        $origin = $request->server->get('HTTP_ORIGIN');
+
+        if ($origin && in_array($origin, static::allowedOrigins(), true)) {
+            $header->set('Access-Control-Allow-Origin', $origin);
+        }
 
         $varyList = ['Accept', 'Access-Control-Request-Method', 'Access-Control-Request-Headers', 'Origin'];
 
@@ -44,5 +49,21 @@ final class CorsMiddleware implements MiddlewareInterface
         $header->set('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, x-access-key');
 
         return respond()->setCode(Respond::HTTP_NO_CONTENT);
+    }
+
+    private static function allowedOrigins(): array
+    {
+        $raw = trim((string) env('CORS_ORIGINS'));
+
+        if ($raw !== '') {
+            return array_values(array_filter(array_map('trim', explode(',', $raw))));
+        }
+
+        return [
+            'http://localhost:8080',
+            'https://localhost:8080',
+            'http://localhost:3000',
+            'https://localhost:3000',
+        ];
     }
 }

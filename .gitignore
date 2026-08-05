@@ -7,6 +7,8 @@
 /shared/*.key
 /vendor
 .env
+*.log
+*.local-bak
 npm-debug.log
 yarn-error.log
 .idea

@@ -15,4 +15,8 @@ foreach (getenv() as $key => $value) {
     }
 }
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+\Core\Routing\Route::$route = [];
+
 require_once __DIR__ . '/../public/index.php';

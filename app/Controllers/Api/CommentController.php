@@ -142,7 +142,7 @@ class CommentController extends Controller
         $valid = $this->validate($request, [
             'presence' => ['bool'],
             'comment' => ['nullable', 'str', 'min:1', 'max:1000'],
-            'gif_id' => ['nullable', 'str', 'min:1', 'max:100'],
+            'gif_id' => ['nullable', 'int', 'min:1', 'max:100'],
         ]);
 
         if ($valid->fails()) {
@@ -222,7 +222,9 @@ class CommentController extends Controller
             ...$valid->except(['id']),
             'user_id' => Auth::id(),
             'parent_id' => $valid->id,
-            'is_admin' => Auth::user()->isAdmin()
+            'is_admin' => Auth::user()->isAdmin(),
+            'ip' => context('ip'),
+            'user_agent' => context('user_agent')
         ]);
 
         return $this->json->success(

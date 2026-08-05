@@ -17,7 +17,7 @@ final class IpUserAgentMiddleware implements MiddlewareInterface
             'user_agent' => $request->userAgent(),
         ], [
             'ip' => ['required', 'str', 'trim', 'min:2', 'max:45', 'ip'],
-            'user_agent' => ['required', 'str', 'trim', 'min:64', 'max:512'],
+            'user_agent' => ['required', 'str', 'trim', 'max:512'],
         ]);
 
         if ($valid->fails()) {

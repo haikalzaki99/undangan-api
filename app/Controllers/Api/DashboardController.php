@@ -149,6 +149,10 @@ class DashboardController extends Controller
                     return 'Null';
                 }
 
+                if (is_string($value) && preg_match('/^[=+\-@\t\r]/', $value)) {
+                    return "'" . $value;
+                }
+
                 return $value;
             }, array_values(get_object_vars($value)));
 

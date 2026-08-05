@@ -19,6 +19,11 @@ class UpdateUserRequest extends Form
             'new_password' => ['nullable', 'str', 'trim', 'min:8', 'max:20'],
             'tenor_key' => ['nullable', 'str', 'min:1', 'max:100'],
             'tz' => ['nullable', 'str', 'trim', 'min:1', 'max:70'],
+            'filter' => ['nullable', 'bool'],
+            'confetti_animation' => ['nullable', 'bool'],
+            'can_edit' => ['nullable', 'bool'],
+            'can_delete' => ['nullable', 'bool'],
+            'can_reply' => ['nullable', 'bool'],
         ];
     }
 }
