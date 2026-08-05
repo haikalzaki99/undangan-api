@@ -67,6 +67,8 @@ class DashboardController extends Controller
 
         $user = Auth::user()->only(['id', 'password']);
 
+        $requestAll = $request->all();
+
         if (!empty($valid->name)) {
             $user->name = $valid->name;
         }
@@ -79,28 +81,28 @@ class DashboardController extends Controller
             $user->tz = $valid->tz;
         }
 
-        if (array_key_exists('tenor_key', $request->all())) {
+        if (array_key_exists('tenor_key', $requestAll)) {
             $user->tenor_key = $valid->tenor_key;
         }
 
-        if ($valid->get('filter') !== null) {
-            $user->is_filter = boolval($valid->filter);
+        if (array_key_exists('filter', $requestAll)) {
+            $user->is_filter = filter_var($requestAll['filter'], FILTER_VALIDATE_BOOLEAN);
         }
 
-        if ($valid->get('confetti_animation') !== null) {
-            $user->is_confetti_animation = boolval($valid->confetti_animation);
+        if (array_key_exists('confetti_animation', $requestAll)) {
+            $user->is_confetti_animation = filter_var($requestAll['confetti_animation'], FILTER_VALIDATE_BOOLEAN);
         }
 
-        if ($valid->get('can_edit') !== null) {
-            $user->can_edit = boolval($valid->can_edit);
+        if (array_key_exists('can_edit', $requestAll)) {
+            $user->can_edit = filter_var($requestAll['can_edit'], FILTER_VALIDATE_BOOLEAN);
         }
 
-        if ($valid->get('can_delete') !== null) {
-            $user->can_delete = boolval($valid->can_delete);
+        if (array_key_exists('can_delete', $requestAll)) {
+            $user->can_delete = filter_var($requestAll['can_delete'], FILTER_VALIDATE_BOOLEAN);
         }
 
-        if ($valid->get('can_reply') !== null) {
-            $user->can_reply = boolval($valid->can_reply);
+        if (array_key_exists('can_reply', $requestAll)) {
+            $user->can_reply = filter_var($requestAll['can_reply'], FILTER_VALIDATE_BOOLEAN);
         }
 
         if (!empty($valid->get('old_password')) && !empty($valid->get('new_password'))) {

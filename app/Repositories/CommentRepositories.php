@@ -139,17 +139,17 @@ class CommentRepositories implements CommentContract
             }
         }
 
-        return DB::transaction(function () use ($commentUuids, $userId): bool {
+        return DB::transaction(function () use ($commentUuids, $userId, $uuid): bool {
 
             Like::where('user_id', $userId)
                 ->whereIn('comment_id', $commentUuids)
                 ->delete();
 
             $deletedComments = Comment::where('user_id', $userId)
-                ->whereIn('uuid', $commentUuids)
+                ->where('uuid', $uuid)
                 ->delete();
 
-            if (count($commentUuids) === $deletedComments) {
+            if ($deletedComments === 1) {
                 return true;
             }
 
